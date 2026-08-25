@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="generator" content="litedown 0.10.2">
+<meta name="generator" content="litedown 0.10.3">
 <title>News</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.69/css/default.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.69/css/article.min.css">
@@ -532,6 +532,15 @@
 </ul>
 <h3 id="sec:bug-fixes_1" class="unnumbered">BUG FIXES</h3>
 <ul>
+<li>
+<p>knitr now emits a warning when a code chunk opens a new graphics device (e.g., via <code>dev.new()</code>), because plots drawn on such devices cannot be captured by knitr and will silently fail to render in the output (thanks, <a href="https://github.com/Higgs32584">@Higgs32584</a>, <a href="https://github.com/yihui/knitr/issues/2355">#2355</a>).</p>
+</li>
+<li>
+<p><code>include_graphics()</code> now converts absolute paths to paths relative to the output directory of the rendered document (communicated by <strong>rmarkdown</strong> &gt;= 2.32 via <code>opts_knit$get('rmarkdown.output_dir')</code>) instead of knitr’s working directory (the input directory), which fixes broken image paths when the input and output directories differ (e.g., rendering to a different <code>output_dir</code>). The existence check (when <code>error = TRUE</code>) also uses the original path so that it no longer reports false negatives when <code>root.dir</code> differs from the output directory (thanks, <a href="https://github.com/naikymen">@naikymen</a> <a href="https://github.com/jameelalsalam">@jameelalsalam</a> <a href="https://github.com/cderv">@cderv</a>, <a href="https://github.com/yihui/knitr/issues/2171">#2171</a>, <a href="https://github.com/r-lib/pkgdown/issues/2334">r-lib/pkgdown#2334</a>).</p>
+</li>
+<li>
+<p><code>kable()</code> now escapes special characters (e.g., <code>&amp;</code>) in the <code>caption</code> argument for LaTeX and HTML output when <code>escape = TRUE</code> (the default), just as it does for cell content and column names. Previously, an unescaped <code>&amp;</code> in a caption could cause a fatal LaTeX compilation error (<code>! Misplaced alignment tab character &amp;.</code>) (thanks, <a href="https://github.com/mbs2016">@mbs2016</a>, <a href="https://github.com/yihui/knitr/issues/2436">#2436</a>).</p>
+</li>
 <li>
 <p>The <code>alt</code> attribute of figure images now has HTML tags stripped (via <code>xfun::strip_html()</code>) and is properly escaped for use in HTML attributes (via <code>xfun::html_escape(attr = TRUE)</code>). Previously, HTML in <code>fig.cap</code> (e.g., a link) could appear verbatim in <code>alt</code>, and double quotes in captions could break the <code>alt</code> attribute value (thanks, <a href="https://github.com/cderv">@cderv</a>, <a href="https://github.com/yihui/knitr/issues/2004">#2004</a>).</p>
 </li>
@@ -4186,7 +4195,7 @@ based on an R script)</p>
 </div>
 <footer><div class="flex-col">
 <p>Developed by <a href="https://yihui.org">Yihui Xie</a></p>
-<p>Site built with <a href="https://github.com/yihui/litedown">litedown</a> v0.10.2</p>
+<p>Site built with <a href="https://github.com/yihui/litedown">litedown</a> v0.10.3</p>
 </div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.69/js/sidenotes.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.69/js/appendix.min.js" defer></script>
