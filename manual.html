@@ -1936,6 +1936,78 @@ rows to show in the table, e.g., <code>options(knitr.kable.max_rows = 30)</code>
 <h3 id="sec:value_17" class="unnumbered unlisted">Value</h3>
 <p>A character vector of the table source code.
 </p>
+<h3 id="sec:arguments-for-the-latex-format" class="unnumbered unlisted">Arguments for the <code>latex</code> format</h3>
+<dl>
+<dt><code>booktabs</code></dt><dd><p>(<code>FALSE</code>) Whether to use the <span class="pkg">booktabs</span> package
+style, i.e., generate <code>\toprule</code>, <code>\midrule</code>, and <code>\bottomrule</code>
+rules (and no vertical lines) instead of <code>\hline</code>.</p>
+</dd>
+<dt><code>longtable</code></dt><dd><p>(<code>FALSE</code>) Whether to use the <span class="pkg">longtable</span> package to
+generate a table that may span multiple pages. This is a shortcut for
+<code>tabular = 'longtable'</code>.</p>
+</dd>
+<dt><code>tabular</code></dt><dd><p>The name of the LaTeX tabular environment, e.g.,
+<code>'tabular'</code> (the default), <code>'longtable'</code>, <code>'tabularx'</code>, or
+<code>'xltabular'</code>.</p>
+</dd>
+<dt><code>valign</code></dt><dd><p>The vertical alignment of the table specified in the
+optional (or, for <code>tabularx</code>/<code>xltabular</code>, the mandatory) argument of
+the tabular environment, e.g., <code>'[t]'</code>. Only applied when a <code>caption</code>
+is present or <code>valign</code> is explicitly provided.</p>
+</dd>
+<dt><code>position</code></dt><dd><p>The floating position of the <code>table</code> environment,
+e.g., <code>'h'</code>, <code>'!htbp'</code>. Only used when the table is wrapped in a
+<code>table</code> environment (i.e., when there is a caption).</p>
+</dd>
+<dt><code>centering</code></dt><dd><p>(<code>TRUE</code>) Whether to center the table with
+<code>\centering</code> (only takes effect when a <code>caption</code> is present).</p>
+</dd>
+<dt><code>vline</code></dt><dd><p>The vertical line separator between columns in the tabular
+preamble (defaults to <code>''</code> for <code>booktabs = TRUE</code>, otherwise <code>'|'</code>).
+Can be set globally via the option <code>knitr.table.vline</code>.</p>
+</dd>
+<dt><code>toprule</code>, <code>midrule</code>, <code>bottomrule</code></dt><dd><p>The horizontal rules at the
+top of the table, after the header row, and at the bottom of the table,
+respectively. They default to <code>\toprule</code>/<code>\midrule</code>/<code>\bottomrule</code>
+for <code>booktabs = TRUE</code>, otherwise <code>\hline</code>. Each can also be set
+globally via the options <code>knitr.table.toprule</code>,
+<code>knitr.table.midrule</code>, and <code>knitr.table.bottomrule</code>.</p>
+</dd>
+<dt><code>linesep</code></dt><dd><p>The separator(s) between rows in the table body. By
+default, an empty separator is used and (for <code>booktabs = TRUE</code>) an
+<code>\addlinespace</code> is inserted after every 5 rows; for <code>booktabs = FALSE</code>, <code>\hline</code> is used between all rows. Provide a character vector
+to control the separators (it is recycled over the body rows).</p>
+</dd>
+<dt><code>caption.short</code></dt><dd><p>A short caption for the table, used in the List of
+Tables (the optional argument of <code>\caption[]{}</code>).</p>
+</dd>
+<dt><code>table.envir</code></dt><dd><p>The LaTeX environment that wraps the tabular
+environment, e.g., <code>'table'</code> (the default when a caption is present) or
+<code>'table*'</code>.</p>
+</dd>
+<dt><code>numeric.math</code></dt><dd><p>Whether to typeset numeric columns in math mode,
+which improves rendering of minus signs, infinite values, and scientific
+notation. The default can be set globally via
+<code>options(knitr.table.numeric.math = TRUE)</code>.</p>
+</dd>
+</dl>
+<h3 id="sec:arguments-for-the-html-format" class="unnumbered unlisted">Arguments for the <code>html</code> format</h3>
+<dl>
+<dt><code>table.attr</code></dt><dd><p>A character string of attributes for the <code>&lt;table&gt;</code>
+tag, e.g., <code>'class="table" id="mytable"'</code>. Can be set globally via the
+option <code>knitr.table.html.attr</code>.</p>
+</dd>
+</dl>
+<h3 id="sec:arguments-for-the-pipe-simple-rst-jira-and-org-formats" class="unnumbered unlisted">Arguments for the <code>pipe</code>, <code>simple</code>, <code>rst</code>, <code>jira</code>, and <code>org</code> formats</h3>
+<dl>
+<dt><code>padding</code></dt><dd><p>(<code>1</code>) The number of spaces used to pad table cells. Set
+<code>padding = 0</code> for no inner padding. Not used by the <code>rst</code> format.</p>
+</dd>
+<dt><code>caption.label</code></dt><dd><p>The prefix printed before the caption. It defaults
+to <code>'Table:'</code> for the <code>pipe</code> format and <code>'#+CAPTION:'</code> for the
+<code>org</code> format.</p>
+</dd>
+</dl>
 <h3 id="sec:note_12" class="unnumbered unlisted">Note</h3>
 <p>When using <code>kable()</code> as a <em>top-level</em> expression, you do not
 need to explicitly <code>print()</code> it due to R's automatic implicit
@@ -2358,16 +2430,16 @@ kable(x, format.args = list(decimal.mark = &quot;,&quot;, big.mark = &quot;'&quo
 </code></pre>
 <pre><code>#&gt; |          V1|          V2|          V3|          V4|          V5|          V6|
 #&gt; |-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
-#&gt; |   994'920,5|   988'209,0| 1'011'255,0| 1'008'293,8| 1'007'408,7| 1'002'503,9|
-#&gt; | 1'005'059,4| 1'004'324,4|   999'217,8|   997'898,8|   995'660,2|   995'967,6|
-#&gt; |   988'437,1| 1'016'331,9| 1'008'208,2| 1'023'849,1| 1'000'577,3|   997'273,1|
-#&gt; | 1'000'191,3| 1'008'336,2|   995'908,6|   986'019,8| 1'018'526,8|   994'110,4|
-#&gt; | 1'000'618,0|   990'622,8| 1'004'068,6| 1'002'597,6| 1'013'019,2| 1'007'018,7|
-#&gt; | 1'003'247,6|   997'421,3|   999'794,0|   998'677,8|   984'706,0|   994'530,1|
-#&gt; |   999'105,0| 1'000'570,9|   991'353,1|   996'644,3|   986'513,0| 1'004'901,5|
-#&gt; | 1'007'757,2| 1'004'919,7| 1'010'187,1|   990'956,0| 1'005'184,2| 1'001'395,4|
-#&gt; |   998'783,2|   987'260,4| 1'011'113,0|   998'301,1| 1'020'156,0| 1'012'653,8|
-#&gt; |   996'136,7|   997'968,1| 1'015'587,8| 1'014'941,8| 1'001'262,0| 1'006'933,8|
+#&gt; |   988'986,0| 1'002'485,8| 1'023'404,8|   993'683,5| 1'012'531,9| 1'001'739,7|
+#&gt; |   994'937,5| 1'008'448,1| 1'000'577,2| 1'005'238,6| 1'010'251,9|   990'467,7|
+#&gt; | 1'011'180,3| 1'001'252,1|   990'874,9| 1'021'508,3| 1'014'274,4|   989'468,8|
+#&gt; | 1'007'135,8|   994'753,8|   987'118,3|   988'485,9| 1'001'666,5|   985'528,6|
+#&gt; |   997'218,0| 1'001'612,8| 1'012'683,4| 1'007'067,3| 1'006'627,6| 1'004'230,7|
+#&gt; |   998'599,5| 1'000'438,5| 1'014'676,3| 1'008'658,8|   979'699,5|   998'687,1|
+#&gt; | 1'000'350,8| 1'008'602,4| 1'009'152,3|   998'967,8| 1'003'616,9| 1'007'885,2|
+#&gt; |   998'038,9|   997'280,0| 1'015'595,0|   994'627,2| 1'002'782,7|   984'569,1|
+#&gt; | 1'008'070,2| 1'009'774,5|   990'423,1| 1'001'487,7|   987'466,8| 1'003'453,7|
+#&gt; |   993'608,3|   997'859,5|   992'852,8|   998'426,1| 1'016'130,3| 1'006'371,6|
 </code></pre>
 <pre><code class="language-r"># save the value
 x = kable(d2, format = &quot;html&quot;)
@@ -3404,7 +3476,7 @@ access or set hooks in this package.
 </code></pre>
 <pre><code>#&gt; function (x, options) 
 #&gt; x
-#&gt; &lt;bytecode: 0x558aab644270&gt;
+#&gt; &lt;bytecode: 0x55b4c33f86e8&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <pre><code class="language-r">knit_hooks$get(&quot;inline&quot;)
@@ -3415,7 +3487,7 @@ access or set hooks in this package.
 #&gt;         x = round_digits(x)
 #&gt;     paste(as.character(x), collapse = &quot;, &quot;)
 #&gt; }
-#&gt; &lt;bytecode: 0x558aab643b00&gt;
+#&gt; &lt;bytecode: 0x55b4c33fb948&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <h2 id="sec:man-knit_meta"><span class="section-number main-number">40</span> Metadata about objects to be printed</h2>
@@ -5099,7 +5171,7 @@ press again to hide the text column (show code).
 # knit these two vignettes using the docco style
 rocco_view(system.file(&quot;doc&quot;, &quot;docco-classic.Rmd&quot;, package = &quot;knitr&quot;))
 </code></pre>
-<pre><code class="language-plain warning">#&gt; You changed the working directory to /tmp/RtmpkF92Jc (probably via setwd()). It will be restored to /home/runner/work/_temp/Library/knitr/doc. See the Note section in ?knitr::knit
+<pre><code class="language-plain warning">#&gt; You changed the working directory to /tmp/RtmpRvOXA5 (probably via setwd()). It will be restored to /home/runner/work/_temp/Library/knitr/doc. See the Note section in ?knitr::knit
 </code></pre>
 <pre><code class="language-r">rocco_view(system.file(&quot;doc&quot;, &quot;knit_expand.Rmd&quot;, package = &quot;knitr&quot;))
 </code></pre>
@@ -5708,7 +5780,7 @@ str(vig_list)
 #&gt;     else knit)(file, encoding = encoding, quiet = quiet, envir = globalenv(), 
 #&gt;         ...)
 #&gt; }
-#&gt; &lt;bytecode: 0x558aa91c5220&gt;
+#&gt; &lt;bytecode: 0x55b4bfdb9ea0&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 #&gt; 
 #&gt; $tangle
@@ -5716,7 +5788,7 @@ str(vig_list)
 #&gt; {
 #&gt;     purl(file, encoding = encoding, quiet = quiet, ...)
 #&gt; }
-#&gt; &lt;bytecode: 0x558aa91cb140&gt;
+#&gt; &lt;bytecode: 0x55b4bfdc17c0&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <pre><code class="language-r">vig_list[[&quot;knitr::knitr_notangle&quot;]][c(&quot;weave&quot;, &quot;tangle&quot;)]
@@ -5751,7 +5823,7 @@ str(vig_list)
 #&gt;     unlink(with_ext(file, &quot;R&quot;))
 #&gt;     return()
 #&gt; }
-#&gt; &lt;bytecode: 0x558aa9225540&gt;
+#&gt; &lt;bytecode: 0x55b4bfe77ec0&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <pre><code class="language-r">vig_list[[&quot;knitr::docco_classic&quot;]][c(&quot;weave&quot;, &quot;tangle&quot;)]
@@ -5780,7 +5852,7 @@ str(vig_list)
 #&gt;     rocco(file, encoding = encoding, quiet = quiet, envir = globalenv(), 
 #&gt;         ...)
 #&gt; }
-#&gt; &lt;bytecode: 0x558aa91ed4d0&gt;
+#&gt; &lt;bytecode: 0x55b4bfe36330&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 #&gt; 
 #&gt; $tangle
@@ -5788,7 +5860,7 @@ str(vig_list)
 #&gt; {
 #&gt;     purl(file, encoding = encoding, quiet = quiet, ...)
 #&gt; }
-#&gt; &lt;bytecode: 0x558aa91cb140&gt;
+#&gt; &lt;bytecode: 0x55b4bfdc17c0&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <h2 id="sec:man-wrap_rmd"><span class="section-number main-number">73</span> Wrap long lines in Rmd files</h2>
