@@ -523,7 +523,22 @@
 <h2 id="sec:knitr-1-53" class="unnumbered">knitr 1.53</h2>
 <h3 id="sec:new-features_1" class="unnumbered">NEW FEATURES</h3>
 <ul>
-<li><code>kable()</code> operating in LaTeX mode can now optionally typeset numeric columns in math mode for improved rendering of minus signs, infinite values, and scientific notation; in particular, decimal and thousands separator commas are wrapped in braces (<code>{}</code>) to preserve spacing. To enable, use <code>kable(..., format = &quot;latex&quot;, numeric.math = TRUE)</code> or set <code>options(knitr.table.numeric.math = TRUE)</code> globally (thanks, <a href="https://github.com/krivit">@krivit</a>, <a href="https://github.com/yihui/knitr/issues/1709">#1709</a>).</li>
+<li>
+<p><code>kable()</code> operating in LaTeX mode can now optionally typeset numeric columns in math mode for improved rendering of minus signs, infinite values, and scientific notation; in particular, decimal and thousands separator commas are wrapped in braces (<code>{}</code>) to preserve spacing. To enable, use <code>kable(..., format = &quot;latex&quot;, numeric.math = TRUE)</code> or set <code>options(knitr.table.numeric.math = TRUE)</code> globally (thanks, <a href="https://github.com/krivit">@krivit</a>, <a href="https://github.com/yihui/knitr/issues/1709">#1709</a>).</p>
+</li>
+<li>
+<p>A code chunk that returns a <code>shiny.tag</code> or <code>shiny.tag.list</code> object (e.g., from <strong>htmltools</strong>) can now have a figure caption and be cross-referenced, in the same way as <strong>htmlwidgets</strong>. For example, the chunk below produces a captioned figure that can be referenced via <code>\@ref(fig:mytag)</code> in <strong>bookdown</strong> (thanks, <a href="https://github.com/cpsievert">@cpsievert</a>, <a href="https://github.com/yihui/knitr/issues/1650">#1650</a>):</p>
+<pre><code>```{r mytag, fig.cap=&quot;A captioned shiny.tag object.&quot;}
+htmltools::div(htmltools::img(src = &quot;logo.png&quot;), htmltools::p(&quot;hello&quot;))
+```
+</code></pre>
+</li>
+<li>
+<p>The <code>sql</code> engine recognizes more SQL keywords (e.g., <code>ALTER</code>, <code>GRANT</code>, <code>MERGE</code>, <code>TRUNCATE</code>, <code>CALL</code>) as statements that do not return a result set, so they are dispatched to <code>DBI::dbExecute()</code> instead of <code>DBI::dbGetQuery()</code> (which avoids warnings from some database drivers). In addition, a new chunk option <code>sql.is_statement</code> can be set to <code>TRUE</code> or <code>FALSE</code> to explicitly control this behavior when the automatic detection based on keywords is not correct (e.g., <code>SELECT ... INTO</code>, or <code>UPDATE ... RETURNING</code>) (thanks, <a href="https://github.com/rnorberg">@rnorberg</a>, <a href="https://github.com/yihui/knitr/issues/1896">#1896</a>).</p>
+</li>
+<li>
+<p>For <code>sql</code> chunks that execute a statement not returning a result set (e.g., <code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code>), the number of affected rows (as returned by <code>DBI::dbExecute()</code>) is now available and can be assigned to a variable via the chunk option <code>output.var</code>. To also report it in the output, set the new chunk option <code>sql.statement.msg</code> to a template string, in which <code>{n}</code> is replaced by the number, e.g., <code>sql.statement.msg = &quot;Number of affected rows: {n}&quot;</code>. By default (when the option is unset) no such output is shown, so existing documents are not affected (thanks, <a href="https://github.com/edalfon">@edalfon</a>, <a href="https://github.com/yihui/knitr/issues/2050">#2050</a>, <a href="https://github.com/yihui/knitr/issues/2051">#2051</a>).</p>
+</li>
 </ul>
 <h3 id="sec:bug-fixes_1" class="unnumbered">BUG FIXES</h3>
 <ul>
