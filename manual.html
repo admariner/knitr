@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="generator" content="litedown 0.11.3">
+<meta name="generator" content="litedown 0.11.4">
 <title>Help pages</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.73/css/default.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.73/css/article.min.css">
@@ -918,36 +918,35 @@ wrapping (for <code>type = "multiline"</code> only).</p>
 valid R syntax. This is an example for <code>.Rmd</code> document
 </p>
 <pre><code>```{r, echo = FALSE, fig.width = 10}
-```
-</code></pre>
-<p>New syntax allows to pass option inside the chunk using several variants
-</p>
-<ul>
-<li><p> Passing options one per line using valid R syntax. This corresponds to <code>convert_chunk_header(type = "multiline")</code>.
-</p>
-<pre><code>```{r}
+<pre><code>&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;New syntax allows to pass option inside the chunk using several variants
+&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt; Passing options one per line using valid R syntax. This corresponds to &lt;code&gt;convert_chunk_header(type = &quot;multiline&quot;)&lt;/code&gt;.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;```{r}
 #| echo = FALSE,
 #| fig.width = 10
-```
 </code></pre>
+<p></code></pre></p>
 </li>
 <li><p> Passing option part from header in-chunk with several line if wrapping is
 needed. This corresponds to <code>convert_chunk_header(type = "wrap")</code>
 </p>
 <pre><code>```{r}
 #| echo = FALSE, fig.width = 10
-```
-</code></pre>
-</li>
-<li><p> Passing options key value pairs in-chunk using YAML syntax. Values are no
+<pre><code>&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt; Passing options key value pairs in-chunk using YAML syntax. Values are no
 more R expression but valid YAML syntax. This corresponds to
-<code>convert_chunk_header(type = "yaml")</code> (not implement yet).
-</p>
-<pre><code>```{r}
+&lt;code&gt;convert_chunk_header(type = &quot;yaml&quot;)&lt;/code&gt; (not implement yet).
+&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;```{r}
 #| echo: false,
 #| fig.width: 10
-```
 </code></pre>
+<p></code></pre></p>
 </li></ul>
 <h3 id="sec:note_7" class="unnumbered unlisted">Note</h3>
 <p>Learn more about the new chunk option syntax in
@@ -2430,16 +2429,16 @@ kable(x, format.args = list(decimal.mark = &quot;,&quot;, big.mark = &quot;'&quo
 </code></pre>
 <pre><code>#&gt; |          V1|          V2|          V3|          V4|          V5|          V6|
 #&gt; |-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
-#&gt; |   988'986,0| 1'002'485,8| 1'023'404,8|   993'683,5| 1'012'531,9| 1'001'739,7|
-#&gt; |   994'937,5| 1'008'448,1| 1'000'577,2| 1'005'238,6| 1'010'251,9|   990'467,7|
-#&gt; | 1'011'180,3| 1'001'252,1|   990'874,9| 1'021'508,3| 1'014'274,4|   989'468,8|
-#&gt; | 1'007'135,8|   994'753,8|   987'118,3|   988'485,9| 1'001'666,5|   985'528,6|
-#&gt; |   997'218,0| 1'001'612,8| 1'012'683,4| 1'007'067,3| 1'006'627,6| 1'004'230,7|
-#&gt; |   998'599,5| 1'000'438,5| 1'014'676,3| 1'008'658,8|   979'699,5|   998'687,1|
-#&gt; | 1'000'350,8| 1'008'602,4| 1'009'152,3|   998'967,8| 1'003'616,9| 1'007'885,2|
-#&gt; |   998'038,9|   997'280,0| 1'015'595,0|   994'627,2| 1'002'782,7|   984'569,1|
-#&gt; | 1'008'070,2| 1'009'774,5|   990'423,1| 1'001'487,7|   987'466,8| 1'003'453,7|
-#&gt; |   993'608,3|   997'859,5|   992'852,8|   998'426,1| 1'016'130,3| 1'006'371,6|
+#&gt; |   996'810,8|   988'422,7|   997'792,4| 1'003'179,6|   997'448,1| 1'005'703,4|
+#&gt; |   989'049,6|   991'696,6| 1'009'962,2|   994'805,5|   997'039,5| 1'002'443,7|
+#&gt; | 1'016'613,9| 1'003'632,4|   997'830,5|   994'824,0|   990'143,7|   994'560,6|
+#&gt; |   995'952,0| 1'000'067,3| 1'011'927,2| 1'002'705,6|   995'274,6| 1'005'892,4|
+#&gt; | 1'007'784,6| 1'006'760,1| 1'000'102,9| 1'005'980,1| 1'010'149,1| 1'009'030,4|
+#&gt; | 1'008'751,4| 1'000'920,5|   999'203,7|   998'977,1| 1'006'027,9| 1'007'614,6|
+#&gt; | 1'006'172,4|   996'058,0|   989'901,1|   995'104,7|   989'828,0| 1'019'729,0|
+#&gt; |   996'323,8| 1'000'677,2| 1'008'048,9|   985'597,8| 1'018'158,2|   983'936,5|
+#&gt; |   976'302,0|   986'983,5|   998'332,7|   998'793,6|   992'579,2| 1'024'942,3|
+#&gt; | 1'020'601,2|   987'481,4|   987'706,9|   990'601,0| 1'006'204,7|   981'556,5|
 </code></pre>
 <pre><code class="language-r"># save the value
 x = kable(d2, format = &quot;html&quot;)
@@ -3476,7 +3475,7 @@ access or set hooks in this package.
 </code></pre>
 <pre><code>#&gt; function (x, options) 
 #&gt; x
-#&gt; &lt;bytecode: 0x55b4c33f86e8&gt;
+#&gt; &lt;bytecode: 0x55615420eab8&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <pre><code class="language-r">knit_hooks$get(&quot;inline&quot;)
@@ -3487,7 +3486,7 @@ access or set hooks in this package.
 #&gt;         x = round_digits(x)
 #&gt;     paste(as.character(x), collapse = &quot;, &quot;)
 #&gt; }
-#&gt; &lt;bytecode: 0x55b4c33fb948&gt;
+#&gt; &lt;bytecode: 0x55615420e348&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <h2 id="sec:man-knit_meta"><span class="section-number main-number">40</span> Metadata about objects to be printed</h2>
@@ -4596,7 +4595,7 @@ references.
 <h3 id="sec:examples_40" class="unnumbered unlisted">Examples</h3>
 <pre><code class="language-r">eval(rand_seed)
 </code></pre>
-<pre><code>#&gt;   [1]       10403          67 -1064009061  -514322183   169112136   335961462  -580236111
+<pre><code>#&gt;   [1]       10403          50 -1064009061  -514322183   169112136   335961462  -580236111
 #&gt;   [8] -1557946141  1336410034   735100932  -944245945 -1477826019  -534658924 -1131925446
 #&gt;  [15] -1160023419  -252562593   844450790  1331349104  1138534803 -1106309583  1447470304
 #&gt;  [22]  1120146814  1996163081 -1176770501 -1326696950  -917674516  1035151983  -682269275
@@ -4689,11 +4688,11 @@ references.
 </code></pre>
 <pre><code class="language-r">rnorm(1)  # .Random.seed is created (or modified)
 </code></pre>
-<pre><code>#&gt; [1] 0.03968241
+<pre><code>#&gt; [1] -1.151026
 </code></pre>
 <pre><code class="language-r">eval(rand_seed)
 </code></pre>
-<pre><code>#&gt;   [1]       10403          69 -1064009061  -514322183   169112136   335961462  -580236111
+<pre><code>#&gt;   [1]       10403          52 -1064009061  -514322183   169112136   335961462  -580236111
 #&gt;   [8] -1557946141  1336410034   735100932  -944245945 -1477826019  -534658924 -1131925446
 #&gt;  [15] -1160023419  -252562593   844450790  1331349104  1138534803 -1106309583  1447470304
 #&gt;  [22]  1120146814  1996163081 -1176770501 -1326696950  -917674516  1035151983  -682269275
@@ -5019,7 +5018,7 @@ Ruckdeschel (author of the <span class="pkg">SweaveListingUtils</span> package)
 #&gt; 
 #&gt; Coefficients:
 #&gt; (Intercept)            x  
-#&gt;      0.7911      -0.1479  
+#&gt;    -0.40584     -0.03323  
 </code></pre>
 <pre><code class="language-r">## later you can use &lt;&lt;my-label&gt;&gt;= to reference this chunk
 
@@ -5171,7 +5170,7 @@ press again to hide the text column (show code).
 # knit these two vignettes using the docco style
 rocco_view(system.file(&quot;doc&quot;, &quot;docco-classic.Rmd&quot;, package = &quot;knitr&quot;))
 </code></pre>
-<pre><code class="language-plain warning">#&gt; You changed the working directory to /tmp/RtmpRvOXA5 (probably via setwd()). It will be restored to /home/runner/work/_temp/Library/knitr/doc. See the Note section in ?knitr::knit
+<pre><code class="language-plain warning">#&gt; You changed the working directory to /tmp/RtmpC4f9py (probably via setwd()). It will be restored to /home/runner/work/_temp/Library/knitr/doc. See the Note section in ?knitr::knit
 </code></pre>
 <pre><code class="language-r">rocco_view(system.file(&quot;doc&quot;, &quot;knit_expand.Rmd&quot;, package = &quot;knitr&quot;))
 </code></pre>
@@ -5780,7 +5779,7 @@ str(vig_list)
 #&gt;     else knit)(file, encoding = encoding, quiet = quiet, envir = globalenv(), 
 #&gt;         ...)
 #&gt; }
-#&gt; &lt;bytecode: 0x55b4bfdb9ea0&gt;
+#&gt; &lt;bytecode: 0x556151013130&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 #&gt; 
 #&gt; $tangle
@@ -5788,7 +5787,7 @@ str(vig_list)
 #&gt; {
 #&gt;     purl(file, encoding = encoding, quiet = quiet, ...)
 #&gt; }
-#&gt; &lt;bytecode: 0x55b4bfdc17c0&gt;
+#&gt; &lt;bytecode: 0x556151019118&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <pre><code class="language-r">vig_list[[&quot;knitr::knitr_notangle&quot;]][c(&quot;weave&quot;, &quot;tangle&quot;)]
@@ -5823,7 +5822,7 @@ str(vig_list)
 #&gt;     unlink(with_ext(file, &quot;R&quot;))
 #&gt;     return()
 #&gt; }
-#&gt; &lt;bytecode: 0x55b4bfe77ec0&gt;
+#&gt; &lt;bytecode: 0x5561510a46f0&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <pre><code class="language-r">vig_list[[&quot;knitr::docco_classic&quot;]][c(&quot;weave&quot;, &quot;tangle&quot;)]
@@ -5852,7 +5851,7 @@ str(vig_list)
 #&gt;     rocco(file, encoding = encoding, quiet = quiet, envir = globalenv(), 
 #&gt;         ...)
 #&gt; }
-#&gt; &lt;bytecode: 0x55b4bfe36330&gt;
+#&gt; &lt;bytecode: 0x55615104d4f8&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 #&gt; 
 #&gt; $tangle
@@ -5860,7 +5859,7 @@ str(vig_list)
 #&gt; {
 #&gt;     purl(file, encoding = encoding, quiet = quiet, ...)
 #&gt; }
-#&gt; &lt;bytecode: 0x55b4bfdc17c0&gt;
+#&gt; &lt;bytecode: 0x556151019118&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <h2 id="sec:man-wrap_rmd"><span class="section-number main-number">73</span> Wrap long lines in Rmd files</h2>
@@ -5932,7 +5931,7 @@ This feature may or may not be added in the future.
 </div>
 <footer><div class="flex-col">
 <p>Developed by <a href="https://yihui.org">Yihui Xie</a></p>
-<p>Site built with <a href="https://github.com/yihui/litedown">litedown</a> v0.11.3</p>
+<p>Site built with <a href="https://github.com/yihui/litedown">litedown</a> v0.11.4</p>
 </div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.73/js/sidenotes.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.73/js/appendix.min.js" defer></script>
