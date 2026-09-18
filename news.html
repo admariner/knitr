@@ -539,10 +539,25 @@ htmltools::div(htmltools::img(src = &quot;logo.png&quot;), htmltools::p(&quot;he
 <li>
 <p>For <code>sql</code> chunks that execute a statement not returning a result set (e.g., <code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code>), the number of affected rows (as returned by <code>DBI::dbExecute()</code>) is now available and can be assigned to a variable via the chunk option <code>output.var</code>. To also report it in the output, set the new chunk option <code>sql.statement.msg</code> to a template string, in which <code>{n}</code> is replaced by the number, e.g., <code>sql.statement.msg = &quot;Number of affected rows: {n}&quot;</code>. By default (when the option is unset) no such output is shown, so existing documents are not affected (thanks, <a href="https://github.com/edalfon">@edalfon</a>, <a href="https://github.com/yihui/knitr/issues/2050">#2050</a>, <a href="https://github.com/yihui/knitr/issues/2051">#2051</a>).</p>
 </li>
+<li>
+<p>The <code>sql</code> engine gained a new chunk option <code>sql.args</code>, a named list of extra arguments passed to the underlying DBI query functions (<code>DBI::dbExecute()</code>, <code>DBI::dbSendQuery()</code>, and <code>DBI::dbGetQuery()</code>). This makes it possible to forward any backend-specific argument, e.g., <code>sql.args = list(immediate = TRUE)</code> to control the DBI <code>immediate</code> argument. These arguments are passed only when supplied, so DBI’s own defaults are otherwise preserved (thanks, <a href="https://github.com/AWKruijt">@AWKruijt</a>, <a href="https://github.com/yihui/knitr/issues/2128">#2128</a>).</p>
+<pre><code>```{sql, connection=con, sql.args=list(immediate=TRUE)}
+CREATE TEMP TABLE foo AS SELECT 1 AS x
+```
+</code></pre>
+</li>
 </ul>
 <h3 id="sec:bug-fixes_1" class="unnumbered">BUG FIXES</h3>
 <ul>
-<li>The <code>ditaa</code> engine now applies its intended default arguments (<code>-s 2 -T -S -E</code>). They were guarded by a comparison against <code>'ditta'</code>, which no engine name can match, so they have never been passed since they were introduced in <a href="https://github.com/yihui/knitr/issues/2092">#2092</a>.</li>
+<li>
+<p><code>spin()</code> now checks that the start (<code># /*</code>) and end (<code># */</code>) comment delimiters are correctly paired and ordered. Previously, only the <em>counts</em> of start and end delimiters were compared, so mis-ordered delimiters (e.g., an end delimiter appearing before a start delimiter) could silently drop the lines in between without any error. Now <code>spin()</code> signals an error that reports the line number of each unmatched delimiter (thanks, <a href="https://github.com/dewittpe">@dewittpe</a>, <a href="https://github.com/yihui/knitr/issues/1801">#1801</a>, <a href="https://github.com/yihui/knitr/issues/1802">#1802</a>).</p>
+</li>
+<li>
+<p>When a document is rendered by Quarto, <code>current_input()</code> now returns the original <code>.qmd</code> filename instead of the <code>.rmarkdown</code> intermediate file that Quarto generates and passes to <strong>knitr</strong> (thanks, <a href="https://github.com/bergsmat">@bergsmat</a>, <a href="https://github.com/yihui/knitr/issues/2384">#2384</a>).</p>
+</li>
+<li>
+<p>The <code>ditaa</code> engine now applies its intended default arguments (<code>-s 2 -T -S -E</code>). They were guarded by a comparison against <code>'ditta'</code>, which no engine name can match, so they have never been passed since they were introduced in <a href="https://github.com/yihui/knitr/issues/2092">#2092</a>.</p>
+</li>
 </ul>
 <h2 id="sec:knitr-1-52" class="unnumbered">knitr 1.52</h2>
 <h3 id="sec:new-features_2" class="unnumbered">NEW FEATURES</h3>
