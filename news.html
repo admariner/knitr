@@ -546,6 +546,21 @@ CREATE TEMP TABLE foo AS SELECT 1 AS x
 ```
 </code></pre>
 </li>
+<li>
+<p>The cache now uses <code>xfun::lazy_save()</code> / <code>xfun::lazy_load()</code> (which store objects in <code>.rds</code> files) instead of <code>tools::makeLazyLoadDB()</code> / <code>lazyLoad()</code>. Existing caches from the previous format (<code>.rdb</code> / <code>.rdx</code> files) are still recognized and loaded, so this change is backward-compatible. In addition, two new S3 generic functions <code>knit_cache_pack()</code> and <code>knit_cache_unpack()</code> allow customizing how objects are written to and restored from the cache. This makes it possible to cache objects that the default method cannot handle correctly, e.g., external-pointer objects such as <strong>terra</strong> rasters (see <a href="https://github.com/yihui/knitr/issues/2176">#2176</a>). <code>knit_cache_pack()</code> is called on each object before it is cached and should return a serializable version; <code>knit_cache_unpack()</code> is called after an object is read from the cache and should restore the original. Package authors can register methods for their classes (typically in <code>.onLoad()</code>) so that users do not need to configure anything, e.g., for <strong>terra</strong> (thanks, <a href="https://github.com/atusy">@atusy</a>, <a href="https://github.com/yihui/knitr/issues/2340">#2340</a>):</p>
+<pre><code>registerS3method(
+  &quot;knit_cache_pack&quot;, &quot;SpatRaster&quot;, function(x, ...) terra::wrap(x),
+  envir = asNamespace(&quot;knitr&quot;)
+)
+registerS3method(
+  &quot;knit_cache_unpack&quot;, &quot;PackedSpatRaster&quot;, function(x, ...) terra::unwrap(x),
+  envir = asNamespace(&quot;knitr&quot;)
+)
+</code></pre>
+</li>
+<li>
+<p>The chunk option <code>fig.topcaption</code> (to place a figure’s caption above the figure instead of below it) now also works for LaTeX/PDF output; previously it only had an effect on HTML output (thanks, <a href="https://github.com/cderv">@cderv</a>, <a href="https://github.com/yihui/knitr/issues/1990">#1990</a>).</p>
+</li>
 </ul>
 <h3 id="sec:bug-fixes_1" class="unnumbered">BUG FIXES</h3>
 <ul>
@@ -554,6 +569,15 @@ CREATE TEMP TABLE foo AS SELECT 1 AS x
 </li>
 <li>
 <p>When a document is rendered by Quarto, <code>current_input()</code> now returns the original <code>.qmd</code> filename instead of the <code>.rmarkdown</code> intermediate file that Quarto generates and passes to <strong>knitr</strong> (thanks, <a href="https://github.com/bergsmat">@bergsmat</a>, <a href="https://github.com/yihui/knitr/issues/2384">#2384</a>).</p>
+</li>
+<li>
+<p>When tangling a document with <code>purl()</code>, calls to <code>read_chunk()</code> are now located by parsing the code and inspecting its syntax tree, instead of matching the pattern <code>read_chunk(...)</code> as a string. This fixes spurious parse errors and makes the detection more robust: a closing parenthesis inside a string argument (e.g., <code>read_chunk(lines = &quot;)&quot;)</code>) no longer breaks <code>purl()</code>, functions whose names merely end in <code>read_chunk</code> (e.g., <code>fake_read_chunk()</code>) are no longer mistaken for <code>read_chunk()</code>, commented-out calls are ignored, and namespaced calls (<code>knitr::read_chunk()</code>) are now recognized (thanks, <a href="https://github.com/rgayler">@rgayler</a>, <a href="https://github.com/mrdowdeswell">@mrdowdeswell</a>, <a href="https://github.com/yihui/knitr/issues/1753">#1753</a>).</p>
+</li>
+<li>
+<p>When multiple graphics devices are specified (e.g., <code>dev = c('cairo_pdf', 'svg')</code>), the recording device now uses the first device (and its <code>dev.args</code>) instead of silently falling back to the default <code>pdf</code> device with default arguments. This ensures measurement-affecting arguments such as <code>pointsize</code> take effect on the recorded plot (#1323).</p>
+</li>
+<li>
+<p>Subfigures (created via <code>fig.subcap</code>) that span multiple rows are now separated by <code>\\</code> instead of <code>\newline</code> in LaTeX output. Inside a centered figure (<code>fig.align = 'center'</code>), <code>\newline</code> did not respect the alignment and left the subfigures left-aligned; <code>\\</code> centers them correctly (thanks, <a href="https://github.com/StephenGerry">@StephenGerry</a>, <a href="https://github.com/yihui/knitr/issues/1907">#1907</a>).</p>
 </li>
 <li>
 <p>The <code>ditaa</code> engine now applies its intended default arguments (<code>-s 2 -T -S -E</code>). They were guarded by a comparison against <code>'ditta'</code>, which no engine name can match, so they have never been passed since they were introduced in <a href="https://github.com/yihui/knitr/issues/2092">#2092</a>.</p>
