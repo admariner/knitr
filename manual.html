@@ -900,7 +900,9 @@ takes <code>input</code> as argument and returns a file path to write into (e.g.
 <td>
 <p>This determines how the in-body options will be formatted.
 <code>"mutiline"</code> (the default, except for &lsquo;<span class="file">qmd</span>&rsquo; documents, for which
-the default is <code>"yaml"</code>) will write each chunk option on a separate
+the default is <code>"yaml"</code>; the extension of <code>output</code> takes precedence over
+that of <code>input</code>, e.g., converting an <code>.Rmd</code> to a <code>.qmd</code>) will write each
+chunk option on a separate
 line. Long chunk option values will be wrapped onto several lines, and you
 can use <code>width = 0</code> to keep one line per option only. <code>"wrap"</code>
 will wrap all chunk options together using
@@ -943,7 +945,7 @@ needed. This corresponds to <code>convert_chunk_header(type = "wrap")</code>
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt; Passing options key value pairs in-chunk using YAML syntax. Values are no
 more R expression but valid YAML syntax. This corresponds to
-&lt;code&gt;convert_chunk_header(type = &quot;yaml&quot;)&lt;/code&gt; (not implement yet).
+&lt;code&gt;convert_chunk_header(type = &quot;yaml&quot;)&lt;/code&gt;.
 &lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;```{r}
 #| echo: false,
@@ -1339,11 +1341,335 @@ engine_output(opts_chunk$merge(list(engine = &quot;Rscript&quot;)),
     code = &quot;1 + 1&quot;, out = &quot;[1] 2&quot;)
 </code></pre>
 <pre><code>#&gt; [1] &quot;1 + 1\n## [1] 2\n&quot;
+#&gt; attr(,&quot;chunk_opts&quot;)
+#&gt; attr(,&quot;chunk_opts&quot;)$eval
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$echo
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$results
+#&gt; [1] &quot;markup&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$tidy
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$tidy.opts
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$collapse
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$prompt
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$comment
+#&gt; [1] &quot;##&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$highlight
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$size
+#&gt; [1] &quot;normalsize&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$background
+#&gt; [1] &quot;#F7F7F7&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$strip.white
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache.path
+#&gt; [1] &quot;cache/&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache.vars
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache.lazy
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$dependson
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$autodep
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache.rebuild
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.keep
+#&gt; [1] &quot;high&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.show
+#&gt; [1] &quot;asis&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.align
+#&gt; [1] &quot;default&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.path
+#&gt; [1] &quot;figure/&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$dev
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$dev.args
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$dpi
+#&gt; [1] 72
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.ext
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.width
+#&gt; [1] 7
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.height
+#&gt; [1] 7
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.env
+#&gt; [1] &quot;figure&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.cap
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.scap
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.note
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.lp
+#&gt; [1] &quot;fig:&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.subcap
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.pos
+#&gt; [1] &quot;&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$out.width
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$out.height
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$out.extra
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.retina
+#&gt; [1] 1
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$external
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$sanitize
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$interval
+#&gt; [1] 1
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$aniopts
+#&gt; [1] &quot;controls,loop&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$warning
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$error
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$message
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$render
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$ref.label
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$child
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$engine
+#&gt; [1] &quot;Rscript&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$split
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$include
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$purl
+#&gt; [1] TRUE
 </code></pre>
 <pre><code class="language-r">engine_output(opts_chunk$merge(list(echo = FALSE, engine = &quot;Rscript&quot;)),
     code = &quot;1 + 1&quot;, out = &quot;[1] 2&quot;)
 </code></pre>
 <pre><code>#&gt; [1] &quot;## [1] 2\n&quot;
+#&gt; attr(,&quot;chunk_opts&quot;)
+#&gt; attr(,&quot;chunk_opts&quot;)$eval
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$echo
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$results
+#&gt; [1] &quot;markup&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$tidy
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$tidy.opts
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$collapse
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$prompt
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$comment
+#&gt; [1] &quot;##&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$highlight
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$size
+#&gt; [1] &quot;normalsize&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$background
+#&gt; [1] &quot;#F7F7F7&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$strip.white
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache.path
+#&gt; [1] &quot;cache/&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache.vars
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache.lazy
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$dependson
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$autodep
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache.rebuild
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.keep
+#&gt; [1] &quot;high&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.show
+#&gt; [1] &quot;asis&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.align
+#&gt; [1] &quot;default&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.path
+#&gt; [1] &quot;figure/&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$dev
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$dev.args
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$dpi
+#&gt; [1] 72
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.ext
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.width
+#&gt; [1] 7
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.height
+#&gt; [1] 7
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.env
+#&gt; [1] &quot;figure&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.cap
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.scap
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.note
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.lp
+#&gt; [1] &quot;fig:&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.subcap
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.pos
+#&gt; [1] &quot;&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$out.width
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$out.height
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$out.extra
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.retina
+#&gt; [1] 1
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$external
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$sanitize
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$interval
+#&gt; [1] 1
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$aniopts
+#&gt; [1] &quot;controls,loop&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$warning
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$error
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$message
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$render
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$ref.label
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$child
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$engine
+#&gt; [1] &quot;Rscript&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$split
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$include
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$purl
+#&gt; [1] TRUE
 </code></pre>
 <pre><code class="language-r"># expert use only
 engine_output(opts_chunk$merge(list(engine = &quot;python&quot;)),
@@ -1351,6 +1677,168 @@ engine_output(opts_chunk$merge(list(engine = &quot;python&quot;)),
         &quot;2&quot;))
 </code></pre>
 <pre><code>#&gt; [1] &quot;1 + 1&quot;  &quot;## 2\n&quot;
+#&gt; attr(,&quot;chunk_opts&quot;)
+#&gt; attr(,&quot;chunk_opts&quot;)$eval
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$echo
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$results
+#&gt; [1] &quot;markup&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$tidy
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$tidy.opts
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$collapse
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$prompt
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$comment
+#&gt; [1] &quot;##&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$highlight
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$size
+#&gt; [1] &quot;normalsize&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$background
+#&gt; [1] &quot;#F7F7F7&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$strip.white
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache.path
+#&gt; [1] &quot;cache/&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache.vars
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache.lazy
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$dependson
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$autodep
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$cache.rebuild
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.keep
+#&gt; [1] &quot;high&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.show
+#&gt; [1] &quot;asis&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.align
+#&gt; [1] &quot;default&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.path
+#&gt; [1] &quot;figure/&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$dev
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$dev.args
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$dpi
+#&gt; [1] 72
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.ext
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.width
+#&gt; [1] 7
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.height
+#&gt; [1] 7
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.env
+#&gt; [1] &quot;figure&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.cap
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.scap
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.note
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.lp
+#&gt; [1] &quot;fig:&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.subcap
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.pos
+#&gt; [1] &quot;&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$out.width
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$out.height
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$out.extra
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$fig.retina
+#&gt; [1] 1
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$external
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$sanitize
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$interval
+#&gt; [1] 1
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$aniopts
+#&gt; [1] &quot;controls,loop&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$warning
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$error
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$message
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$render
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$ref.label
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$child
+#&gt; NULL
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$engine
+#&gt; [1] &quot;python&quot;
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$split
+#&gt; [1] FALSE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$include
+#&gt; [1] TRUE
+#&gt; 
+#&gt; attr(,&quot;chunk_opts&quot;)$purl
+#&gt; [1] TRUE
 </code></pre>
 <h2 id="sec:man-fig_chunk"><span class="section-number main-number">16</span> Obtain the figure filenames for a chunk</h2>
 <h3 id="sec:description_16" class="unnumbered unlisted">Description</h3>
@@ -1852,6 +2340,7 @@ values directly instead of data objects (see examples below).
   label = NULL,
   format.args = list(),
   escape = TRUE,
+  na = getOption("knitr.kable.NA"),
   ...
 )
 
@@ -1921,6 +2410,13 @@ to format table values, e.g. <code>list(big.mark = ',')</code>.</p>
 LaTeX tables. When <code>escape = FALSE</code>, you have to make sure that
 special characters will not trigger syntax errors in LaTeX or HTML.</p>
 </td></tr>
+<tr><td><code>na</code></td>
+<td>
+<p>The character string to display for missing values (<code>NA</code>) in the
+table. This is the per-call equivalent of the global option
+<code>knitr.kable.NA</code>, which it defaults to (so <code>NA</code>s are shown as <code>NA</code> unless
+the option is set), e.g. <code>na = ''</code> to hide <code>NA</code> values in a single table.</p>
+</td></tr>
 <tr><td><code>...</code></td>
 <td>
 <p>Other arguments (see Examples and References).</p>
@@ -1930,10 +2426,15 @@ special characters will not trigger syntax errors in LaTeX or HTML.</p>
 <p>Missing values (<code>NA</code>) in the table are displayed as <code>NA</code> by
 default. If you want to display them with other characters, you can set the
 option <code>knitr.kable.NA</code>, e.g. <code>options(knitr.kable.NA = '')</code> to
-hide <code>NA</code> values.
+hide <code>NA</code> values, or use the <code>na</code> argument to do this for a single table.
 </p>
 <p>You can set the option <code>knitr.kable.max_rows</code> to limit the number of
 rows to show in the table, e.g., <code>options(knitr.kable.max_rows = 30)</code>.
+</p>
+<p>By default, leading and trailing white spaces in table cells are trimmed. To
+preserve them (e.g. to align numbers with a monospace font in the Markdown
+source), set the option <code>knitr.kable.keep.whitespace</code> to <code>TRUE</code>, e.g.,
+<code>options(knitr.kable.keep.whitespace = TRUE)</code>.
 </p>
 <h3 id="sec:value_17" class="unnumbered unlisted">Value</h3>
 <p>A character vector of the table source code.
@@ -2432,16 +2933,16 @@ kable(x, format.args = list(decimal.mark = &quot;,&quot;, big.mark = &quot;'&quo
 </code></pre>
 <pre><code>#&gt; |          V1|          V2|          V3|          V4|          V5|          V6|
 #&gt; |-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
-#&gt; | 1'008'935,7|   995'816,6|   992'800,1|   991'428,2|   997'440,3|   997'106,9|
-#&gt; | 1'007'649,1| 1'006'414,8|   996'201,8|   993'972,0|   978'766,2|   992'567,0|
-#&gt; |   998'518,7| 1'005'550,2| 1'019'069,0| 1'012'212,3|   988'280,4| 1'012'845,7|
-#&gt; | 1'019'647,8|   989'328,1|   988'807,9| 1'011'854,0| 1'008'298,3| 1'002'583,8|
-#&gt; |   995'849,2| 1'001'733,1| 1'026'748,5| 1'013'065,4| 1'004'074,9|   997'545,0|
-#&gt; |   997'018,7| 1'011'617,9|   996'734,9| 1'004'347,9|   999'597,8| 1'010'661,3|
-#&gt; | 1'009'374,9| 1'008'067,7| 1'030'396,4| 1'011'072,9|   998'186,5| 1'004'659,7|
-#&gt; |   992'690,0| 1'001'499,8| 1'009'547,0| 1'014'347,3| 1'010'499,3|   997'644,8|
-#&gt; | 1'014'793,5| 1'008'235,6| 1'030'128,5|   996'226,9| 1'007'743,5| 1'002'060,9|
-#&gt; |   995'443,0| 1'003'697,3|   990'512,0|   987'880,9|   995'045,3|   997'551,4|
+#&gt; |   994'580,5| 1'006'851,2| 1'016'826,8| 1'002'661,2| 1'012'114,9|   997'603,6|
+#&gt; |   983'202,4| 1'002'585,2| 1'000'385,3|   999'779,7| 1'005'227,8| 1'011'235,2|
+#&gt; | 1'003'031,1|   986'008,9|   991'998,9|   993'340,5|   999'541,4|   997'032,2|
+#&gt; | 1'007'738,8|   993'698,1| 1'007'745,1|   987'416,0| 1'013'871,7| 1'009'275,6|
+#&gt; |   991'553,0|   988'062,4|   998'710,0| 1'003'935,3|   988'870,4| 1'012'984,6|
+#&gt; | 1'001'553,7|   987'660,3|   992'632,4|   992'349,5|   997'301,8|   994'165,1|
+#&gt; | 1'001'144,3| 1'018'791,5| 1'004'533,5|   999'361,3|   987'872,5|   983'026,9|
+#&gt; |   996'261,6|   995'848,3|   983'224,1|   997'766,8| 1'009'726,6|   991'583,5|
+#&gt; | 1'003'242,5| 1'013'114,9| 1'011'243,1|   998'913,7| 1'005'669,0|   989'426,4|
+#&gt; |   993'861,5| 1'002'631,9| 1'014'137,8| 1'007'820,8| 1'012'760,0| 1'007'498,2|
 </code></pre>
 <pre><code class="language-r"># save the value
 x = kable(d2, format = &quot;html&quot;)
@@ -3530,7 +4031,7 @@ access or set hooks in this package.
 </code></pre>
 <pre><code>#&gt; function (x, options) 
 #&gt; x
-#&gt; &lt;bytecode: 0x5625af4e58f0&gt;
+#&gt; &lt;bytecode: 0x555f9983b100&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <pre><code class="language-r">knit_hooks$get(&quot;inline&quot;)
@@ -3541,7 +4042,7 @@ access or set hooks in this package.
 #&gt;         x = round_digits(x)
 #&gt;     paste(as.character(x), collapse = &quot;, &quot;)
 #&gt; }
-#&gt; &lt;bytecode: 0x5625af4e5180&gt;
+#&gt; &lt;bytecode: 0x555f9983bd40&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <h2 id="sec:man-knit_meta"><span class="section-number main-number">41</span> Metadata about objects to be printed</h2>
@@ -3826,9 +4327,21 @@ normal_print(x, ...)</code></pre>
 </td></tr>
 <tr><td><code>...</code></td>
 <td>
-<p>Additional arguments passed to the S3 method. Currently ignored,
-except two optional arguments <code>options</code> and <code>inline</code>; see
-the references below.</p>
+<p>Additional arguments passed to the S3 method. <span class="pkg">knitr</span> passes
+two optional arguments that methods may use (other arguments are currently
+ignored):
+</p>
+<dl>
+<dt><code>options</code></dt><dd><p>A list of the current chunk options, so a method can
+customize its output according to chunk options.</p>
+</dd>
+<dt><code>inline</code></dt><dd><p>A logical value indicating whether the object is being
+printed from inline R code (<code>TRUE</code>) or from a code chunk (<code>FALSE</code>), so
+a method can produce different output for the two contexts.</p>
+</dd>
+</dl>
+<p>A method that wants to use these should declare them after <code>...</code> (e.g.
+<code>function(x, ..., options)</code>).</p>
 </td></tr>
 </table>
 <h3 id="sec:details_17" class="unnumbered unlisted">Details</h3>
@@ -4984,7 +5497,8 @@ read_demo(topic, package = NULL, ...)</code></pre>
 <table role = "presentation">
 <tr><td><code>path</code></td>
 <td>
-<p>Path to the R script.</p>
+<p>Path to the R script, or a <span class="pkg">knitr</span> source document such as an
+<code>.Rmd</code> or <code>.Rnw</code> file.</p>
 </td></tr>
 <tr><td><code>lines</code></td>
 <td>
@@ -5024,6 +5538,13 @@ code chunks in addition to whitespace.</p>
 Use a special separator of the from <code>## ---- chunk-label</code> (at least four
 dashes before the chunk label) in the script; (2) Manually specify the
 labels, starting and ending positions of code chunks in the script.
+</p>
+<p>Alternatively, the external file can be a <span class="pkg">knitr</span> source document (e.g.,
+an R Markdown <code>.Rmd</code> or R Sweave <code>.Rnw</code> file) instead of an R script. In this
+case (detected automatically from the file extension or content, when
+<code>labels</code> is not specified), the code chunks in the document are read in and
+keyed by their chunk labels; chunks without a label are given an automatic
+label. Text and inline code outside code chunks are ignored.
 </p>
 <p>The second approach will be used only when <code>labels</code> is not <code>NULL</code>.
 For this approach, if <code>from</code> is <code>NULL</code>, the starting position is 1;
@@ -5225,7 +5746,7 @@ press again to hide the text column (show code).
 # knit these two vignettes using the docco style
 rocco_view(system.file(&quot;doc&quot;, &quot;docco-classic.Rmd&quot;, package = &quot;knitr&quot;))
 </code></pre>
-<pre><code class="language-plain warning">#&gt; You changed the working directory to /tmp/Rtmp4Zwojk (probably via setwd()). It will be restored to /home/runner/work/_temp/Library/knitr/doc. See the Note section in ?knitr::knit
+<pre><code class="language-plain warning">#&gt; You changed the working directory to /tmp/RtmpFWJVyC (probably via setwd()). It will be restored to /home/runner/work/_temp/Library/knitr/doc. See the Note section in ?knitr::knit
 </code></pre>
 <pre><code class="language-r">rocco_view(system.file(&quot;doc&quot;, &quot;knit_expand.Rmd&quot;, package = &quot;knitr&quot;))
 </code></pre>
@@ -5834,7 +6355,7 @@ str(vig_list)
 #&gt;     else knit)(file, encoding = encoding, quiet = quiet, envir = globalenv(), 
 #&gt;         ...)
 #&gt; }
-#&gt; &lt;bytecode: 0x5625ac41c4d8&gt;
+#&gt; &lt;bytecode: 0x555f9877cb50&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 #&gt; 
 #&gt; $tangle
@@ -5842,7 +6363,7 @@ str(vig_list)
 #&gt; {
 #&gt;     purl(file, encoding = encoding, quiet = quiet, ...)
 #&gt; }
-#&gt; &lt;bytecode: 0x5625ac41ff60&gt;
+#&gt; &lt;bytecode: 0x555f98791978&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <pre><code class="language-r">vig_list[[&quot;knitr::knitr_notangle&quot;]][c(&quot;weave&quot;, &quot;tangle&quot;)]
@@ -5877,7 +6398,7 @@ str(vig_list)
 #&gt;     unlink(with_ext(file, &quot;R&quot;))
 #&gt;     return()
 #&gt; }
-#&gt; &lt;bytecode: 0x5625ac484a68&gt;
+#&gt; &lt;bytecode: 0x555f9887b8a0&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <pre><code class="language-r">vig_list[[&quot;knitr::docco_classic&quot;]][c(&quot;weave&quot;, &quot;tangle&quot;)]
@@ -5906,7 +6427,7 @@ str(vig_list)
 #&gt;     rocco(file, encoding = encoding, quiet = quiet, envir = globalenv(), 
 #&gt;         ...)
 #&gt; }
-#&gt; &lt;bytecode: 0x5625ac441f50&gt;
+#&gt; &lt;bytecode: 0x555f987adff8&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 #&gt; 
 #&gt; $tangle
@@ -5914,7 +6435,7 @@ str(vig_list)
 #&gt; {
 #&gt;     purl(file, encoding = encoding, quiet = quiet, ...)
 #&gt; }
-#&gt; &lt;bytecode: 0x5625ac41ff60&gt;
+#&gt; &lt;bytecode: 0x555f98791978&gt;
 #&gt; &lt;environment: namespace:knitr&gt;
 </code></pre>
 <h2 id="sec:man-wrap_rmd"><span class="section-number main-number">74</span> Wrap long lines in Rmd files</h2>
